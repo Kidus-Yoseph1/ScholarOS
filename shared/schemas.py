@@ -1,9 +1,3 @@
-"""
-shared/schemas.py
-Standardized Data Contracts for Scholar-OS.
-Ensures type safety between FastAPI, LangGraph, and multiple LLM providers.
-"""
-
 from enum import Enum
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field, HttpUrl
@@ -39,6 +33,7 @@ class SourceChunk(BaseModel):
     source_id: str
     page_number: Optional[int] = None
     similarity_score: float
+    metadata: Dict[str, Any] = Field(default_factory=dict)
 
 # LangGraph State Schema 
 
@@ -73,7 +68,7 @@ class ChatResponse(BaseModel):
     error: bool = False
 
 class ProviderConfig(BaseModel):
-    """Configuration for dynamic provider switching (Rule #5)."""
+    """Configuration for dynamic provider switching."""
     provider: ProviderName
     model_name: str
     temperature: float = 0.1
